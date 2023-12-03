@@ -17,7 +17,6 @@ import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.persistence.PersistentDataType;
 import org.jetbrains.annotations.NotNull;
 
-import java.lang.reflect.Array;
 import java.util.*;
 
 @CommandAlias("hoe")
@@ -59,7 +58,7 @@ public class HoeCommand extends AlpineCommand {
 
             Player target = plugin.getServer().getPlayer(args[0]);
             if (target == null) {
-                Components.send(sender, config.noPlayerMessage.build("sender", sender.getName()));
+                Components.send(sender, config.noOnlineMessage.build("sender", sender.getName()));
 
                 return;
             }

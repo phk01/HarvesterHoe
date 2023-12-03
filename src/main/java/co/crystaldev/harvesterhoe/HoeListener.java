@@ -2,7 +2,6 @@ package co.crystaldev.harvesterhoe;
 
 import co.crystaldev.alpinecore.AlpinePlugin;
 import co.crystaldev.alpinecore.framework.engine.AlpineEngine;
-import co.crystaldev.alpinecore.util.Components;
 import org.bukkit.Bukkit;
 import org.bukkit.NamespacedKey;
 import org.bukkit.block.data.Ageable;
@@ -73,7 +72,7 @@ public class HoeListener extends AlpineEngine {
 
                         if (data.getAge() == data.getMaximumAge()) {
                             event.setCancelled(true);
-                            player.sendMessage("You broke a block with a diamond hoe!");
+                            //player.sendMessage("You broke a block with a diamond hoe!");
                             block.setType(cropSeedsMap.get(cropType));
 
                             double multiplier = switch (hoeType) {

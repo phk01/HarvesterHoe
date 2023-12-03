@@ -10,11 +10,7 @@ public class HoeConfig extends AlpineConfig {
     public ConfigMessage noPermissionMessage = new ConfigMessage("<red>You do not have permission to use this command!");
     public ConfigMessage giveMessage = new ConfigMessage("<green>You have been given a Harvester Hoe!");
     public ConfigMessage giveOtherMessage = new ConfigMessage("<green>You have given <yellow>%target%<green> a Harvester Hoe!");
-    public ConfigMessage noPlayerMessage = new ConfigMessage("<red>You must specify a player!");
     public double wheatAmount = 1;
     public double carrotAmount = 1.2;
     public double potatoAmount = 1.5;
-    public ConfigMessage loreMessage = new ConfigMessage("<yellow>A hoe that harvests crops %multiplier%.");
-    public ConfigMessage nameMessage = new ConfigMessage("<green>Harvester Hoe");
-
 }
