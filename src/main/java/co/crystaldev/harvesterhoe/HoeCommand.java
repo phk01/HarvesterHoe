@@ -1,9 +1,11 @@
 package co.crystaldev.harvesterhoe;
 
 
+import co.aikar.commands.PaperCommandManager;
 import co.aikar.commands.annotation.*;
 import co.crystaldev.alpinecore.AlpinePlugin;
 import co.crystaldev.alpinecore.framework.command.AlpineCommand;
+import co.crystaldev.alpinecore.util.Components;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
 import org.bukkit.command.CommandSender;
@@ -13,9 +15,10 @@ import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.persistence.PersistentDataType;
+import org.jetbrains.annotations.NotNull;
 
-import java.util.Arrays;
-import java.util.UUID;
+import java.lang.reflect.Array;
+import java.util.*;
 
 @CommandAlias("hoe")
 @Description("Get a harvester hoe.")
@@ -33,18 +36,19 @@ public class HoeCommand extends AlpineCommand {
         super(plugin);
     }
     @Default
-    @Syntax("<player>")
+    @Syntax("<player> <multiplier>")
     @CommandCompletion("@player 1|2|5")
     public void execute(CommandSender sender, String[] args) {
+        HoeConfig config = this.plugin.getConfigManager().getConfig(HoeConfig.class);
         Player player = (Player) sender;
         UUID uuid = player.getUniqueId();
 
         if (args.length == 0) {
             giveCustomHoe(player, "1");
-            player.sendMessage("You've been given a Harvester Hoe!");
+            Components.send(sender, config.giveMessage.build("sender", sender.getName()));
         } else {
             if (!player.hasPermission("Harvesterhoe.give")) {
-                player.sendMessage("You don't have permission to give a Harvester Hoe!");
+                Components.send(sender, config.noPermissionMessage.build("sender", sender.getName()));
                 return;
             }
 
@@ -55,7 +59,8 @@ public class HoeCommand extends AlpineCommand {
 
             Player target = plugin.getServer().getPlayer(args[0]);
             if (target == null) {
-                player.sendMessage("That player is not online!");
+                Components.send(sender, config.noPlayerMessage.build("sender", sender.getName()));
+
                 return;
             }
 
@@ -66,7 +71,7 @@ public class HoeCommand extends AlpineCommand {
             }
 
             giveCustomHoe(target, hoeVariant);
-            player.sendMessage("You've given " + target.getName() + " a Harvester Hoe!");
+            Components.send(sender, config.giveOtherMessage.build("player", player.getName()));
         }
 
     }
@@ -75,10 +80,10 @@ public class HoeCommand extends AlpineCommand {
         ItemStack customHoe = createCustomHoe(hoeType);
 
         player.getInventory().addItem(customHoe);
-        player.sendMessage("You've received a custom hoe!");
     }
 
     private ItemStack createCustomHoe(String hoeType) {
+
         ItemStack hoe = new ItemStack(Material.DIAMOND_HOE); // Customize material and properties as needed
 
         ItemMeta meta = hoe.getItemMeta();
@@ -96,6 +101,19 @@ public class HoeCommand extends AlpineCommand {
         }
 
         return hoe;
+    }
+
+    @Override
+    public void registerCompletions(@NotNull PaperCommandManager commandManager) {
+        commandManager.getCommandCompletions().registerAsyncCompletion("player", context -> {
+            Set<String> names = new HashSet<>();
+            for (Player player : this.plugin.getServer().getOnlinePlayers()) {
+                if (context.getPlayer().canSee(player)) {
+                    names.add(player.getName());
+                }
+            }
+            return names;
+        });
     }
 
 }

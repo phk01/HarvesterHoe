@@ -2,6 +2,7 @@ package co.crystaldev.harvesterhoe;
 
 import co.crystaldev.alpinecore.AlpinePlugin;
 import co.crystaldev.alpinecore.framework.engine.AlpineEngine;
+import co.crystaldev.alpinecore.util.Components;
 import org.bukkit.Bukkit;
 import org.bukkit.NamespacedKey;
 import org.bukkit.block.data.Ageable;
@@ -41,17 +42,19 @@ public class HoeListener extends AlpineEngine {
 
     // Method to initialize crop prices
     private Map<String, Double> initializeCropPrices() {
+        HoeConfig config = this.plugin.getConfigManager().getConfig(HoeConfig.class);
         Map<String, Double> prices = new HashMap<>();
         // Set default prices
-        prices.put("WHEAT", 1.0);
-        prices.put("CARROTS", 1.2);
-        prices.put("POTATOES", 1.5);
+        prices.put("WHEAT", config.wheatAmount);
+        prices.put("CARROTS", config.carrotAmount);
+        prices.put("POTATOES", config.potatoAmount);
         // Add more crop prices as needed
         return prices;
     }
 
     @EventHandler
     private void onBlockBreak(BlockBreakEvent event) {
+        HoeConfig config = this.plugin.getConfigManager().getConfig(HoeConfig.class);
         Block block = event.getBlock();
         Player player = event.getPlayer();
         ItemStack handItem = player.getInventory().getItemInMainHand();
@@ -97,5 +100,6 @@ public class HoeListener extends AlpineEngine {
                 }
             }
         }
+        //event.setCancelled(true);
     }
 }
