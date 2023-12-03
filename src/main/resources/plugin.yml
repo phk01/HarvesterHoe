@@ -1,0 +1,8 @@
+name: HarvesterHoe
+main: co.crystaldev.harvesterhoe.Hoe
+version: 1.0
+description: Harvester Hoe
+author: phk01
+depend:
+    - AlpineCore
+api-version: 1.13
