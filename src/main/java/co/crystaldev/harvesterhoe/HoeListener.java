@@ -73,18 +73,12 @@ public class HoeListener extends AlpineEngine {
                             player.sendMessage("You broke a block with a diamond hoe!");
                             block.setType(cropSeedsMap.get(cropType));
 
-                            double multiplier = 1.0; // Default multiplier if the tag is not present or unknown
-                            switch (hoeType) {
-                                case "1":
-                                    multiplier = 1.0;
-                                    break;
-                                case "2":
-                                    multiplier = 2.0;
-                                    break;
-                                case "5":
-                                    multiplier = 5.0;
-                                    break;
-                            }
+                            double multiplier = switch (hoeType) {
+                                case "1" -> 1.0;
+                                case "2" -> 2.0;
+                                case "5" -> 5.0;
+                                default -> 1.0; // Default multiplier if the tag is not present or unknown
+                            };
 
                             // Get crop price based on crop type
                             double cropPrice = cropPrices.getOrDefault(cropType.toString(), 0.0);
