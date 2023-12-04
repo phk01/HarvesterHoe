@@ -20,7 +20,7 @@ import java.util.Map;
 public class HoeListener extends AlpineEngine {
 
     private final Map<Material, Material> cropSeedsMap;
-    private final Map<String, Double> cropPrices;
+    private final Map<Material, Double> cropPrices;
 
     protected HoeListener(AlpinePlugin plugin) {
         super(plugin);
@@ -39,16 +39,10 @@ public class HoeListener extends AlpineEngine {
         return map;
     }
 
-    // Method to initialize crop prices
-    private Map<String, Double> initializeCropPrices() {
+    // Method to initialize crop prices using HoeConfig
+    private Map<Material, Double> initializeCropPrices() {
         HoeConfig config = this.plugin.getConfigManager().getConfig(HoeConfig.class);
-        Map<String, Double> prices = new HashMap<>();
-        // Set default prices
-        prices.put("WHEAT", config.wheatAmount);
-        prices.put("CARROTS", config.carrotAmount);
-        prices.put("POTATOES", config.potatoAmount);
-        // Add more crop prices as needed
-        return prices;
+        return config.materialToAmount;
     }
 
     @EventHandler
@@ -57,7 +51,7 @@ public class HoeListener extends AlpineEngine {
         Block block = event.getBlock();
         Player player = event.getPlayer();
         ItemStack handItem = player.getInventory().getItemInMainHand();
-
+        Material cropType = block.getType();
         if (handItem.getType().equals(Material.DIAMOND_HOE)) {
             ItemMeta meta = handItem.getItemMeta();
             if (meta != null) {
@@ -66,7 +60,6 @@ public class HoeListener extends AlpineEngine {
                 String hoeType = meta.getPersistentDataContainer().get(key, dataType);
 
                 if (hoeType != null) {
-                    Material cropType = block.getType();
                     if (cropSeedsMap.containsKey(cropType)) {
                         Ageable data = (Ageable) block.getBlockData();
 
@@ -83,7 +76,8 @@ public class HoeListener extends AlpineEngine {
                             };
 
                             // Get crop price based on crop type
-                            double cropPrice = cropPrices.getOrDefault(cropType.toString(), 0.0);
+                            double cropPrice = cropPrices.getOrDefault(cropType, 0.0);
+                            //double cropPrice = cropPrices.getOrDefault(cropType.toString(), 0.0);
 
                             // Calculate amount to give to the player
                             double amount = cropPrice * multiplier;
@@ -97,8 +91,13 @@ public class HoeListener extends AlpineEngine {
                         }
                     }
                 }
+
             }
+        } else if (cropSeedsMap.containsKey(cropType)) {
+            //event.setCancelled(true);
+            //Components.send(player, config.noHoeMessage.build());
+
         }
-        //event.setCancelled(true);
+
     }
 }
