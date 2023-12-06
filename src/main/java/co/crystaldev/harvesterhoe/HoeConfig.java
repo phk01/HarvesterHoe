@@ -2,7 +2,6 @@ package co.crystaldev.harvesterhoe;
 
 import co.crystaldev.alpinecore.framework.config.AlpineConfig;
 import co.crystaldev.alpinecore.framework.config.object.ConfigMessage;
-import net.kyori.adventure.text.Component;
 import org.bukkit.Material;
 
 import java.util.HashMap;
@@ -14,7 +13,7 @@ public class HoeConfig extends AlpineConfig {
     public ConfigMessage noOnlineMessage = new ConfigMessage("<red>That player is not online!");
     public ConfigMessage noPermissionMessage = new ConfigMessage("<red>You do not have permission to use this command!");
     public ConfigMessage giveMessage = new ConfigMessage("<green>You have been given a Harvester Hoe!");
-    public ConfigMessage giveOtherMessage = new ConfigMessage("<green>You have given <yellow>%player%<green> a Harvester Hoe!");
+    public ConfigMessage giveOtherMessage = new ConfigMessage("<green>You have given <yellow>%player%<green> a Harvester Hoe with multi %multiplier%!");
 
     public Map<Material, Double> materialToAmount = new HashMap<>();
 
