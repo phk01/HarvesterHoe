@@ -25,6 +25,7 @@ public class HoeCommand extends AlpineCommand {
     }
 
     @Default
+    @CommandPermission("Harvesterhoe.get")
     public void get(CommandSender sender) {
         HoeConfig config = this.plugin.getConfigManager().getConfig(HoeConfig.class);
         Player player = (Player) sender;
@@ -41,8 +42,8 @@ public class HoeCommand extends AlpineCommand {
         Player target = Bukkit.getPlayer(player);
         if (target == null) { Components.send(sender, config.noOnlineMessage.build("player", player)); return; }
         giveCustomHoe(target, hoeType);
-        Components.send(sender, config.giveMessage.build("sender", sender.getName()));
-        Components.send(sender, config.giveOtherMessage.build("player", target.getName()));
+        Components.send(sender, config.giveMessage.build("sender", sender.getName(), "multiplier", hoeType));
+        Components.send(sender, config.giveOtherMessage.build("player", target.getName(), "multiplier", hoeType));
     }
 
     private void giveCustomHoe(Player player, int hoeType) {
@@ -58,12 +59,12 @@ public class HoeCommand extends AlpineCommand {
         ItemMeta meta = hoe.getItemMeta();
         if (meta != null) {
             // Add lore or other customizations if desired
-            meta.setLore(Arrays.asList("Denne Gem Hoe giver ", hoeType + "x af dine tjente Gems"));
+            //meta.setLore(Arrays.asList("Denne Gem Hoe giver ", hoeType + "x af dine tjente Gems"));
             // Setting custom NBT data using PersistentDataContainer
             PersistentDataType<String, String> dataType = PersistentDataType.STRING;
             NamespacedKey key = new NamespacedKey(plugin, "hoe_type");
             meta.getPersistentDataContainer().set(key, PersistentDataType.INTEGER, hoeType);
-            meta.setDisplayName("Gem Hoe");
+            meta.setDisplayName(hoeType + "x Gem Hoe");
             meta.addEnchant(Enchantment.DURABILITY, 0, true);
             meta.addItemFlags(ItemFlag.HIDE_ENCHANTS);
             hoe.setItemMeta(meta);

@@ -12,7 +12,7 @@ public class HoeConfig extends AlpineConfig {
     public ConfigMessage noHoeMessage = new ConfigMessage("<red>You must be holding a hoe to harvest!");
     public ConfigMessage noOnlineMessage = new ConfigMessage("<red>That player is not online!");
     public ConfigMessage noPermissionMessage = new ConfigMessage("<red>You do not have permission to use this command!");
-    public ConfigMessage giveMessage = new ConfigMessage("<green>You have been given a Harvester Hoe!");
+    public ConfigMessage giveMessage = new ConfigMessage("<green>You have been given a Harvester Hoe! %multiplier%");
     public ConfigMessage giveOtherMessage = new ConfigMessage("<green>You have given <yellow>%player%<green> a Harvester Hoe with multi %multiplier%!");
 
     public Map<Material, Double> materialToAmount = new HashMap<>();
