@@ -2,6 +2,7 @@ package co.crystaldev.harvesterhoe;
 
 import co.crystaldev.alpinecore.framework.config.AlpineConfig;
 import co.crystaldev.alpinecore.framework.config.object.ConfigMessage;
+import de.exlll.configlib.Comment;
 import org.bukkit.Material;
 
 import java.util.HashMap;
@@ -14,9 +15,9 @@ public class HoeConfig extends AlpineConfig {
     public ConfigMessage noPermissionMessage = new ConfigMessage("<red>You do not have permission to use this command!");
     public ConfigMessage giveMessage = new ConfigMessage("<green>You have been given a Harvester Hoe! %multiplier%");
     public ConfigMessage giveOtherMessage = new ConfigMessage("<green>You have given <yellow>%player%<green> a Harvester Hoe with multi %multiplier%!");
+    @Comment("You can add more crops by doing \"CropsName: Amount\"")
 
     public Map<Material, Double> materialToAmount = new HashMap<>();
-
     // Constructor to initialize the map
     public HoeConfig() {
         // Populate the map with default material amounts

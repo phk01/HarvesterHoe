@@ -30,13 +30,8 @@ public class HoeListener extends AlpineEngine {
 
     // Method to initialize the crop and seeds mapping
     private Map<Material, Material> initializeCropSeedsMap() {
-        Map<Material, Material> map = new HashMap<>();
-        // Add crop and seed pairs here
-        map.put(Material.WHEAT, Material.WHEAT);
-        map.put(Material.CARROTS, Material.CARROTS);
-        map.put(Material.POTATOES, Material.POTATOES);
-        // Add more crops and seeds as needed
-        return map;
+        HoeConfig config = this.plugin.getConfigManager().getConfig(HoeConfig.class);
+        return config.materialToAmount.keySet().stream().collect(HashMap::new, (map, key) -> map.put(key, key), HashMap::putAll);
     }
 
     // Method to initialize crop prices using HoeConfig
@@ -56,8 +51,10 @@ public class HoeListener extends AlpineEngine {
             ItemMeta meta = handItem.getItemMeta();
             if (meta != null) {
                 NamespacedKey key = new NamespacedKey(plugin, "hoe_type");
-                PersistentDataType<String, String> dataType = PersistentDataType.STRING;
-                String hoeType = meta.getPersistentDataContainer().get(key, dataType);
+                PersistentDataType<Integer, Integer> dataType = PersistentDataType.INTEGER;
+                Integer hoeType = meta.getPersistentDataContainer().get(key, dataType);
+
+
 
                 if (hoeType != null) {
                     if (cropSeedsMap.containsKey(cropType)) {
@@ -69,9 +66,9 @@ public class HoeListener extends AlpineEngine {
                             block.setType(cropSeedsMap.get(cropType));
 
                             double multiplier = switch (hoeType) {
-                                case "1" -> 1.0;
-                                case "2" -> 2.0;
-                                case "5" -> 5.0;
+                                case 1 -> 1.0;
+                                case 2 -> 2.0;
+                                case 5 -> 5.0;
                                 default -> 1.0; // Default multiplier if the tag is not present or unknown
                             };
 
