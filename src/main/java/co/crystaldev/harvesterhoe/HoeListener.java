@@ -3,35 +3,26 @@ package co.crystaldev.harvesterhoe;
 import co.crystaldev.alpinecore.AlpinePlugin;
 import co.crystaldev.alpinecore.framework.engine.AlpineEngine;
 import org.bukkit.Bukkit;
+import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
+import org.bukkit.block.Block;
 import org.bukkit.block.data.Ageable;
 import org.bukkit.entity.Player;
-import org.bukkit.block.Block;
-import org.bukkit.Material;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.persistence.PersistentDataType;
 
-import java.util.HashMap;
 import java.util.Map;
 
 public class HoeListener extends AlpineEngine {
 
-    private final Map<Material, Material> cropSeedsMap;
     private final Map<Material, Double> cropPrices;
 
     protected HoeListener(AlpinePlugin plugin) {
         super(plugin);
-        cropSeedsMap = initializeCropSeedsMap(); // Initialize the crop and seeds mapping
         cropPrices = initializeCropPrices(); // Initialize crop prices
-    }
-
-    // Method to initialize the crop and seeds mapping
-    private Map<Material, Material> initializeCropSeedsMap() {
-        HoeConfig config = this.plugin.getConfigManager().getConfig(HoeConfig.class);
-        return config.materialToAmount.keySet().stream().collect(HashMap::new, (map, key) -> map.put(key, key), HashMap::putAll);
     }
 
     // Method to initialize crop prices using HoeConfig
@@ -57,13 +48,13 @@ public class HoeListener extends AlpineEngine {
 
 
                 if (hoeType != null) {
-                    if (cropSeedsMap.containsKey(cropType)) {
+                    if (cropPrices.containsKey(cropType)) {
                         Ageable data = (Ageable) block.getBlockData();
 
                         if (data.getAge() == data.getMaximumAge()) {
                             event.setCancelled(true);
                             //player.sendMessage("You broke a block with a diamond hoe!");
-                            block.setType(cropSeedsMap.get(cropType));
+                            block.setType(cropType);
 
                             double multiplier = switch (hoeType) {
                                 case 1 -> 1.0;
@@ -90,11 +81,11 @@ public class HoeListener extends AlpineEngine {
                 }
 
             }
-        } else if (cropSeedsMap.containsKey(cropType)) {
+        } //else if (cropPrices.containsKey(cropType)) {
             //event.setCancelled(true);
             //Components.send(player, config.noHoeMessage.build());
 
-        }
+        //}
 
     }
 }
