@@ -5,10 +5,4 @@ import lombok.Getter;
 
 public class Hoe extends AlpinePlugin {
 
-    @Getter
-    private static Hoe instance;
-    {
-        instance = this;
-    }
-
 }

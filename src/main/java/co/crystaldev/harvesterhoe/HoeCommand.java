@@ -27,7 +27,8 @@ public class HoeCommand extends AlpineCommand {
     @Default
     @CommandPermission("Harvesterhoe.get")
     public void get(CommandSender sender) {
-        HoeConfig config = this.plugin.getConfigManager().getConfig(HoeConfig.class);
+        HoeConfig config = this.plugin.getConfiguration(HoeConfig.class);
+        //HoeConfig config = this.plugin.getConfigManager().getConfig(HoeConfig.class);
         Player player = (Player) sender;
         giveCustomHoe(player, 1);
         Components.send(sender, config.giveMessage.build("sender", sender.getName()));
@@ -38,7 +39,7 @@ public class HoeCommand extends AlpineCommand {
     @Syntax("<player> [multiplier]")
     @CommandPermission("Harvesterhoe.give")
     public void give(CommandSender sender, String player, int hoeType) {
-        HoeConfig config = this.plugin.getConfigManager().getConfig(HoeConfig.class);
+        HoeConfig config = this.plugin.getConfiguration(HoeConfig.class);
         Player target = Bukkit.getPlayer(player);
         if (target == null) { Components.send(sender, config.noOnlineMessage.build("player", player)); return; }
         giveCustomHoe(target, hoeType);

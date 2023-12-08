@@ -18,22 +18,13 @@ import java.util.Map;
 
 public class HoeListener extends AlpineEngine {
 
-    private final Map<Material, Double> cropPrices;
-
     protected HoeListener(AlpinePlugin plugin) {
         super(plugin);
-        cropPrices = initializeCropPrices(); // Initialize crop prices
-    }
-
-    // Method to initialize crop prices using HoeConfig
-    private Map<Material, Double> initializeCropPrices() {
-        HoeConfig config = this.plugin.getConfigManager().getConfig(HoeConfig.class);
-        return config.materialToAmount;
     }
 
     @EventHandler
     private void onBlockBreak(BlockBreakEvent event) {
-        HoeConfig config = this.plugin.getConfigManager().getConfig(HoeConfig.class);
+        HoeConfig config = this.plugin.getConfiguration(HoeConfig.class);
         Block block = event.getBlock();
         Player player = event.getPlayer();
         ItemStack handItem = player.getInventory().getItemInMainHand();
@@ -45,9 +36,8 @@ public class HoeListener extends AlpineEngine {
                 PersistentDataType<Integer, Integer> dataType = PersistentDataType.INTEGER;
                 Integer hoeType = meta.getPersistentDataContainer().get(key, dataType);
 
-
-
                 if (hoeType != null) {
+                    Map<Material, Double> cropPrices = config.materialToAmount;
                     if (cropPrices.containsKey(cropType)) {
                         Ageable data = (Ageable) block.getBlockData();
 
