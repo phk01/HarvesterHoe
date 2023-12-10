@@ -3,9 +3,12 @@ package co.crystaldev.harvesterhoe;
 import co.crystaldev.alpinecore.framework.config.AlpineConfig;
 import co.crystaldev.alpinecore.framework.config.object.ConfigMessage;
 import de.exlll.configlib.Comment;
+import lombok.Getter;
 import org.bukkit.Material;
 
+import java.util.Arrays;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public final class HoeConfig extends AlpineConfig {
@@ -24,4 +27,14 @@ public final class HoeConfig extends AlpineConfig {
         materialToAmount.put(Material.POTATOES, 1.5);
     }
 
+    //Make a list of lore
+
+    @Getter
+    private List<String> Lore;
+
+    public HoeConfig() {
+        Lore = Arrays.asList("&7Harvester Hoe", "&7Harvest crops with a multiplier of &a%multiplier%&7!");
+    }
+
+    //public List<String> lore = List.of("&7Harvester Hoe", "&7Harvest crops with a multiplier of &a%multiplier%&7!");
 }

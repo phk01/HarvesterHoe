@@ -16,7 +16,7 @@ repositories {
 
 dependencies {
     compileOnly("org.spigotmc:spigot-api:1.19.3-R0.1-SNAPSHOT")
-    compileOnly("co.crystaldev:alpinecore:0.1.1")
+    compileOnly("co.crystaldev:alpinecore:0.1.2")
 
     val lombok = "org.projectlombok:lombok:1.18.28"
     compileOnly(lombok)

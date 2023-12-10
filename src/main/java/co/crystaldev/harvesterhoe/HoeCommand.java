@@ -54,6 +54,7 @@ public class HoeCommand extends AlpineCommand {
     }
 
     private ItemStack createCustomHoe(int hoeType) {
+        HoeConfig config = this.plugin.getConfiguration(HoeConfig.class);
 
         ItemStack hoe = new ItemStack(Material.DIAMOND_HOE); // Customize material and properties as needed
 
@@ -68,7 +69,19 @@ public class HoeCommand extends AlpineCommand {
             double cropsharvested = 0;
             meta.getPersistentDataContainer().set(harvested, PersistentDataType.DOUBLE, cropsharvested);
             meta.getPersistentDataContainer().set(key, PersistentDataType.INTEGER, hoeType);
-            meta.setLore(Arrays.asList("You have earned " + cropsharvested + " Gems"));
+            //meta.setLore(Arrays.asList("You have earned " + cropsharvested + " Gems"));
+
+            //for (int i = 0; i < config.lore.size(); i++) {
+            //    config.lore.set(i, config.lore.get(i).replace("%multiplier%", hoeType + ""));
+            //    meta.setLore(config.lore);
+            //}
+
+            List<String> lore = config.getLore();
+            for (int i = 0; i < lore.size(); i++) {
+                lore.set(i, lore.get(i).replace("%multiplier%", hoeType + ""));
+                meta.setLore(lore);
+            }
+
             meta.setDisplayName(hoeType + "x Gem Hoe");
             meta.addEnchant(Enchantment.DURABILITY, 0, true);
             meta.addItemFlags(ItemFlag.HIDE_ENCHANTS);
