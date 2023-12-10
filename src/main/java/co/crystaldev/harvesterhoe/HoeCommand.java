@@ -64,7 +64,11 @@ public class HoeCommand extends AlpineCommand {
             // Setting custom NBT data using PersistentDataContainer
             PersistentDataType<String, String> dataType = PersistentDataType.STRING;
             NamespacedKey key = new NamespacedKey(plugin, "hoe_type");
+            NamespacedKey harvested = new NamespacedKey(plugin, "harvested");
+            double cropsharvested = 0;
+            meta.getPersistentDataContainer().set(harvested, PersistentDataType.DOUBLE, cropsharvested);
             meta.getPersistentDataContainer().set(key, PersistentDataType.INTEGER, hoeType);
+            meta.setLore(Arrays.asList("You have earned " + cropsharvested + " Gems"));
             meta.setDisplayName(hoeType + "x Gem Hoe");
             meta.addEnchant(Enchantment.DURABILITY, 0, true);
             meta.addItemFlags(ItemFlag.HIDE_ENCHANTS);
