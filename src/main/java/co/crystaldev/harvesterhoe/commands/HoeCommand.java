@@ -1,10 +1,12 @@
-package co.crystaldev.harvesterhoe;
+package co.crystaldev.harvesterhoe.commands;
 
 
 import co.aikar.commands.annotation.*;
 import co.crystaldev.alpinecore.AlpinePlugin;
 import co.crystaldev.alpinecore.framework.command.AlpineCommand;
 import co.crystaldev.alpinecore.util.Components;
+import co.crystaldev.harvesterhoe.config.HoeConfig;
+import co.crystaldev.harvesterhoe.handlers.NBTHandler;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
@@ -54,38 +56,11 @@ public class HoeCommand extends AlpineCommand {
     }
 
     private ItemStack createCustomHoe(int hoeType) {
-        HoeConfig config = this.plugin.getConfiguration(HoeConfig.class);
-
         ItemStack hoe = new ItemStack(Material.DIAMOND_HOE); // Customize material and properties as needed
-
         ItemMeta meta = hoe.getItemMeta();
         if (meta != null) {
-            // Add lore or other customizations if desired
-            //meta.setLore(Arrays.asList("Denne Gem Hoe giver ", hoeType + "x af dine tjente Gems"));
-            // Setting custom NBT data using PersistentDataContainer
-            PersistentDataType<String, String> dataType = PersistentDataType.STRING;
-            NamespacedKey key = new NamespacedKey(plugin, "hoe_type");
-            NamespacedKey harvested = new NamespacedKey(plugin, "harvested");
-            double cropsharvested = 0;
-            meta.getPersistentDataContainer().set(harvested, PersistentDataType.DOUBLE, cropsharvested);
-            meta.getPersistentDataContainer().set(key, PersistentDataType.INTEGER, hoeType);
-            //meta.setLore(Arrays.asList("You have earned " + cropsharvested + " Gems"));
-
-            //for (int i = 0; i < config.lore.size(); i++) {
-            //    config.lore.set(i, config.lore.get(i).replace("%multiplier%", hoeType + ""));
-            //    meta.setLore(config.lore);
-            //}
-
-            List<String> lore = config.getLore();
-            for (int i = 0; i < lore.size(); i++) {
-                lore.set(i, lore.get(i).replace("%multiplier%", hoeType + ""));
-                meta.setLore(lore);
-            }
-
-            meta.setDisplayName(hoeType + "x Gem Hoe");
-            meta.addEnchant(Enchantment.DURABILITY, 0, true);
-            meta.addItemFlags(ItemFlag.HIDE_ENCHANTS);
-            hoe.setItemMeta(meta);
+            NBTHandler nbtHandler = new NBTHandler(plugin);
+            nbtHandler.createNBT(hoe, hoeType);
         }
 
         return hoe;

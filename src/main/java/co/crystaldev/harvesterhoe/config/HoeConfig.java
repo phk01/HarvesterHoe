@@ -1,4 +1,4 @@
-package co.crystaldev.harvesterhoe;
+package co.crystaldev.harvesterhoe.config;
 
 import co.crystaldev.alpinecore.framework.config.AlpineConfig;
 import co.crystaldev.alpinecore.framework.config.object.ConfigMessage;
@@ -33,7 +33,7 @@ public final class HoeConfig extends AlpineConfig {
     private List<String> Lore;
 
     public HoeConfig() {
-        Lore = Arrays.asList("&7Harvester Hoe", "&7Harvest crops with a multiplier of &a%multiplier%&7!");
+        Lore = Arrays.asList("Harvester Hoe", "Harvest crops with a multiplier of %multiplier%!");
     }
 
     //public List<String> lore = List.of("&7Harvester Hoe", "&7Harvest crops with a multiplier of &a%multiplier%&7!");

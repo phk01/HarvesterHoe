@@ -1,7 +1,9 @@
-package co.crystaldev.harvesterhoe;
+package co.crystaldev.harvesterhoe.listeners;
 
 import co.crystaldev.alpinecore.AlpinePlugin;
 import co.crystaldev.alpinecore.framework.engine.AlpineEngine;
+import co.crystaldev.harvesterhoe.config.HoeConfig;
+import co.crystaldev.harvesterhoe.handlers.NBTHandler;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
@@ -14,7 +16,7 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.persistence.PersistentDataType;
 
-import java.util.Arrays;
+import java.util.List;
 import java.util.Map;
 
 public class HoeListener extends AlpineEngine {
@@ -65,14 +67,8 @@ public class HoeListener extends AlpineEngine {
                             String command = "eco give " + player.getName() + " " + amount;
                             Bukkit.getServer().dispatchCommand(Bukkit.getConsoleSender(), command);
 
-                            NamespacedKey harvested = new NamespacedKey(plugin, "harvested");
-                            PersistentDataType<Double, Double> earnedCrops = PersistentDataType.DOUBLE;
-                            Double cropsHarvested = meta.getPersistentDataContainer().get(harvested, earnedCrops);
-
-                            meta.getPersistentDataContainer().set(harvested, PersistentDataType.DOUBLE, cropsHarvested + amount);
-                            meta.setLore(Arrays.asList("You have earned " + (cropsHarvested + amount) + " Gems"));
-                            handItem.setItemMeta(meta);
-
+                            NBTHandler nbtHandler = new NBTHandler(plugin);
+                            nbtHandler.updateNBT(handItem, amount);
 
                         } else {
                             event.setCancelled(true);
