@@ -31,7 +31,7 @@ public class HoeCommand extends AlpineCommand {
         //HoeConfig config = this.plugin.getConfigManager().getConfig(HoeConfig.class);
         Player player = (Player) sender;
         giveCustomHoe(player, 1);
-        Components.send(sender, config.giveMessage.build("sender", sender.getName()));
+        Components.send(sender, config.giveMessage.build("sender", sender.getName(), "multiplier", 1));
     }
 
     @Subcommand("give")
